@@ -1,0 +1,62 @@
+name: Claude Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Issue Triage
+        id: claude-triage
+        uses: anthropics/claude-code-action@v1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: '--allowed-tools "Bash(gh issue view *),Bash(gh issue edit *),Bash(gh issue comment *),Bash(gh label list *)"'
+          prompt: |
+            Eres un asistente de triage de issues para este repositorio, un
+            Tetris vanilla JS con Canvas (archivos principales: `index.html`,
+            `style.css`, `game.js`; ver CLAUDE.md para la arquitectura).
+
+            El issue a analizar es el número ${{ github.event.issue.number }}.
+
+            Pasos a seguir:
+            1. Lee el issue completo con `gh issue view ${{ github.event.issue.number }}`.
+            2. Lista los labels disponibles con `gh label list` y elige
+               ÚNICAMENTE entre los labels ya existentes en el repo los que
+               mejor encajen (uno o varios: bug, enhancement, documentation,
+               question, good first issue, help wanted, duplicate, invalid,
+               wontfix). No crees labels nuevos bajo ninguna circunstancia.
+            3. Aplica los labels elegidos con
+               `gh issue edit ${{ github.event.issue.number }} --add-label "label1,label2"`.
+               Si el issue editado ya tiene labels que ya no aplican, puedes
+               quitarlos con `--remove-label`.
+            4. Publica un comentario con
+               `gh issue comment ${{ github.event.issue.number }} --body "..."`
+               que contenga un diagnóstico general del problema, incluyendo:
+               - Resumen breve del problema reportado.
+               - Componente/archivo probablemente afectado (game.js, index.html
+                 o style.css), citando funciones relevantes si es posible
+                 (spawn, collide, tryRotate, clearLines, loop, etc.).
+               - Causa raíz sospechada.
+               - Enfoque sugerido para implementar la solución (sin escribir
+                 el código todavía, solo el plan de ataque).
+               Si el issue es ambiguo o falta información clave, dilo
+               explícitamente en el comentario y pide los datos que faltan
+               (pasos para reproducir, navegador, etc.) en vez de adivinar.
+
+            Mantén el comentario conciso y accionable, en el mismo idioma en
+            que está escrito el issue.
