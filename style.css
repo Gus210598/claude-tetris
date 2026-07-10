@@ -245,3 +245,106 @@ kbd {
 #restart-btn:hover {
   background: var(--accent-hover);
 }
+
+/* ---- Leaderboard / records ---- */
+.leaderboard {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: var(--text);
+  min-width: 140px;
+}
+
+.leaderboard li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard li.leaderboard-empty {
+  color: var(--muted);
+  font-style: italic;
+  justify-content: center;
+}
+
+.leaderboard li.highlight {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+#leaderboard-overlay {
+  width: 220px;
+}
+
+.stats-line {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.stats-line span {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ---- Entrada de nombre (top score) ---- */
+.name-entry {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.name-entry.hidden {
+  display: none;
+}
+
+#name-input {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 13px;
+  width: 120px;
+}
+
+#save-score-btn {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+#save-score-btn:hover {
+  background: var(--accent-hover);
+}
+
+.reset-btn {
+  background: transparent;
+  border: 1px solid var(--kbd-border);
+  color: var(--muted);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.reset-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
