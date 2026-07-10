@@ -42,6 +42,53 @@ html.light {
   --grid-line: #e2e2ea;
 }
 
+/* Skins force their own text/label colors (in addition to bg/board vars) so
+   contrast stays readable no matter which light/dark theme class is also
+   present on <html> — skin rules are declared after html.light, so they win
+   the cascade for any property they set. */
+html.skin-neon {
+  --bg: #000000;
+  --text: #e8f9ff;
+  --board-bg: #000000;
+  --board-border: #1a1a1a;
+  --grid-line: #0d1f1f;
+  --accent: #00e5ff;
+  --title-glow: rgba(0, 229, 255, 0.7);
+  --label-color: #5fd8e8;
+  --muted: #7fb8c4;
+  --kbd-bg: #0a1a1a;
+  --kbd-border: #0d3a3a;
+  --kbd-text: #9fe8f0;
+}
+
+html.skin-pastel {
+  --bg: #fdf6f0;
+  --text: #4a3f45;
+  --board-bg: #fffaf5;
+  --board-border: #e8d9d0;
+  --grid-line: #f0e4dc;
+  --accent: #c98bb0;
+  --title-glow: rgba(201, 139, 176, 0.35);
+  --label-color: #8a7580;
+  --muted: #9a8a90;
+  --kbd-bg: #f5e8e0;
+  --kbd-border: #e0cfc5;
+  --kbd-text: #6a5a60;
+}
+
+html.skin-pixel {
+  --bg: #101018;
+  --text: #d8d8e8;
+  --board-bg: #17171f;
+  --board-border: #38384a;
+  --grid-line: #26263a;
+  --label-color: #7a7a95;
+  --muted: #8a8aa0;
+  --kbd-bg: #1e1e2c;
+  --kbd-border: #38384a;
+  --kbd-text: #b0b0c8;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -163,6 +210,18 @@ body {
 .theme-switch input:checked + .theme-switch-slider::before {
   content: '☀️';
   transform: translateX(20px);
+}
+
+/* ---- Selector de skin ---- */
+#skin-select {
+  background: var(--kbd-bg);
+  color: var(--text);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 /* ---- Controles ---- */
